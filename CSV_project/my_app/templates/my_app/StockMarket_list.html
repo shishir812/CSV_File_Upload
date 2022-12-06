@@ -1,0 +1,98 @@
+{% extends 'my_app/base.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>StockMarket_LIST</title>
+
+{% endblock title %}
+
+
+
+
+
+{% block content %}
+
+
+{% for message in messages %}
+<div class="alert alert-danger" role="alert">
+  {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+{% endfor %}
+
+
+
+
+
+<table class="table">
+  <tbody>
+
+    <tr>
+      <th scope="col">NO.</th>
+      <th scope="col">DATE</th>
+      <th scope="col">TRADE_CODE</th>
+        <th scope="col">HIGH</th>
+      <th scope="col">LOW</th>
+      <th scope="col">OPEN</th>
+        <th scope="col">CLOSE</th>
+      <th scope="col">VOLUME</th>
+      <th scope="col">EDIT</th>
+      <th scope="col">DELETE</th>
+
+    </tr>
+
+
+
+{% for stock in stockmarket_list %}
+
+    <tr>
+      <th scope="row">{{ stock.id }}</th>
+      <td>{{ stock.date }}</td>
+      <td>{{ stock.trade_code }}</td>
+        <td>{{ stock.high }}</td>
+      <td>{{ stock.low }}</td>
+        <td>{{ stock.open }}</td>
+      <td>{{ stock.close }}</td>
+        <td>{{ stock.volume }}</td>
+        <td><a href="{% url 'stock_form_update' stock.id %}">EDIT</a></td>
+      <td><a href="{% url 'stock_delete' stock.id %}">DELETE</a></td>
+
+
+    </tr>
+
+
+{% endfor %}
+
+      </tbody>
+
+</table>
+
+
+{% for StockMarket in page_obj %}
+    {{ StockMarket.full_name|upper }}<br>
+{% endfor %}
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+{% endblock content %}
